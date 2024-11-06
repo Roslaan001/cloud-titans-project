@@ -94,7 +94,7 @@ DATABASES = {
         'PORT': env('DB_PORT'),
         'OPTIONS': {
             'ssl': {
-                'ca': 'C:/Users/OKKKKK/Downloads/cloud-titans-main-project/socialmedia/eu-west-1-bundle.pem'
+                'ca': 'cloud-titans-main-project/socialmedia/eu-west-1-bundle.pem'
             }
         }
     }
