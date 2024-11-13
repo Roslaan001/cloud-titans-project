@@ -24,7 +24,7 @@ def signup(request):
         if my_user is not None:
             login(request,my_user)
             return redirect('/')
-        return redirect('/loginn')
+        return redirect('/login')
     
         
  except:
@@ -41,7 +41,7 @@ def signup(request):
         
     
 
-def loginn(request):
+def custom_login(request):
  
   if request.method == 'POST':
         fnm=request.POST.get('fnm')
@@ -53,33 +53,35 @@ def loginn(request):
         
  
         invalid="Invalid Credentials"
-        return render(request, 'loginn.html',{'invalid':invalid})
+        return render(request, 'login.html',{'invalid':invalid})
                
-  return render(request, 'loginn.html')
+  return render(request, 'login.html')
 
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def logoutt(request):
     logout(request)
-    return redirect('/loginn')
+    return redirect('/login')
 
 
 
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def home(request):
-    following_users = Followers.objects.filter(follower=request.user.username).values_list('user', flat=True)
-    post = Post.objects.filter(Q(user=request.user.username) | Q(user__in=following_users)).order_by('-created_at')
-
-    profile, created = Profile.objects.get_or_create(user=request.user)
+    posts = Post.objects.all()  # QuerySet for all posts
+    profile = None
+    if request.user.is_authenticated:
+        profile = Profile.objects.filter(user=request.user).first()  # Get the current user's profile
 
     context = {
-        'post': post,
+        'post': posts,
+        'user': request.user,
         'profile': profile,
     }
     return render(request, 'main.html', context)
+
     
 
 
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def upload(request):
 
     if request.method == 'POST':
@@ -94,7 +96,7 @@ def upload(request):
     else:
         return redirect('/')
 
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def likes(request, id):
     if request.method == 'GET':
         username = request.user.username
@@ -117,7 +119,7 @@ def likes(request, id):
         # Redirect back to the post's detail page
         return redirect('/#'+id)
     
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def explore(request):
     post=Post.objects.all().order_by('-created_at')
     profile = Profile.objects.get(user=request.user)
@@ -129,7 +131,7 @@ def explore(request):
     }
     return render(request, 'explore.html',context)
     
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def profile(request,id_user):
     user_object = User.objects.get(username=id_user)
     print(user_object)
@@ -188,7 +190,7 @@ def profile(request,id_user):
             return render(request, 'profile.html', context)
     return render(request, 'profile.html', context)
 
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def delete(request, id):
     post = Post.objects.get(id=id)
     post.delete()
@@ -196,7 +198,7 @@ def delete(request, id):
     return redirect('/profile/'+ request.user.username)
 
 
-@login_required(login_url='/loginn')
+@login_required(login_url='/login')
 def search_results(request):
     query = request.GET.get('q')
 

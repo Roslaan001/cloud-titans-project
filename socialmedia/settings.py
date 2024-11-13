@@ -94,7 +94,7 @@ DATABASES = {
         'PORT': env('DB_PORT'),
         'OPTIONS': {
             'ssl': {
-                'ca': 'cloud-titans-main-project/socialmedia/eu-west-1-bundle.pem'
+                'ca': 'C:/Users/OKKKKK/Downloads/cloud-titans-main-project/cloudtitans/socialmedia/eu-west-1-bundle.pem'
             }
         }
     }
@@ -165,7 +165,7 @@ AWS_PROFILE_PICTURE_STORAGE_BUCKET_NAME = env('AWS_PROFILE_PICTURE_STORAGE_BUCKE
 AWS_PROFILE_PICTURE_S3_REGION_NAME = env('AWS_PROFILE_PICTURE_S3_REGION_NAME')
 
 
-# Define custom storage settings
+#Define custom storage settings
 class ProfilePictureStorage(S3Boto3Storage):
     bucket_name = AWS_PROFILE_PICTURE_STORAGE_BUCKET_NAME
     region_name = AWS_PROFILE_PICTURE_S3_REGION_NAME
@@ -178,4 +178,4 @@ PROFILE_PICTURE_STORAGE = ProfilePictureStorage()
 POST_IMAGE_STORAGE = PostImageStorage()
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_S3_FILE_OVERWRITE = False  # Prevent accidental overwrites
+AWS_S3_FILE_OVERWRITE = False  #Prevent accidental overwrites

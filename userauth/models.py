@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 import uuid
 from datetime import datetime
-# from storages.backends.s3boto3 import S3Boto3Storage
+from storages.backends.s3boto3 import S3Boto3Storage
 from socialmedia.settings import POST_IMAGE_STORAGE, PROFILE_PICTURE_STORAGE
 
 User = get_user_model()
